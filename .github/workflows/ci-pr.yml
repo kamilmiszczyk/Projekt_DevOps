@@ -1,0 +1,15 @@
+name: Sprawdzanie PR
+on:
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - run: pip install -r requirements.txt
+      - run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      - run: pytest
